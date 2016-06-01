@@ -4,8 +4,11 @@ $(document).ready(function(){
     var problemNumber = 0;
     var correctSoFar = 0;
     
+    var timeLeft = 60;
+    
     $(".total").text(totalProblems);
     $(".soFar").text(correctSoFar);
+    $(".timeLeft").text(timeLeft);
     
     while(problemNumber < totalProblems){
         $(".board").append(randomProblemUpTo(10));
@@ -28,6 +31,11 @@ $(document).ready(function(){
             input.css("background-color", colorBad);
         }
     });
+    
+    setInterval(function(){
+        timeLeft -= 1;
+        $(".timeLeft").text(timeLeft);
+    }, 1000);
 
     function randomNumberUpTo(maximum){
         return Math.round(Math.random() * maximum);
