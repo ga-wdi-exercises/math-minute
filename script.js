@@ -2,6 +2,10 @@ $(document).ready(function(){
 
     var totalProblems = 60;
     var problemNumber = 0;
+    var correctSoFar = 0;
+    
+    $(".total").text(totalProblems);
+    $(".soFar").text(correctSoFar);
     
     while(problemNumber < totalProblems){
         $(".board").append(randomProblemUpTo(10));
@@ -17,6 +21,9 @@ $(document).ready(function(){
         if(guess == answer){
             input.css("background-color", colorGood);
             input.parent().fadeOut();
+            
+            correctSoFar += 1;
+            $(".soFar").text(correctSoFar);
         }else{
             input.css("background-color", colorBad);
         }
