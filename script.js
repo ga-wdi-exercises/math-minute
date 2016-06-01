@@ -9,13 +9,16 @@ $(document).ready(function(){
     }
     
     $("input").on("change", function(){
-        var el = $(this);
-        var answer = el.attr("secret-answer");
-        var guess = el.val();
+        var input = $(this);
+        var answer = input.attr("secret-answer");
+        var guess = input.val();
+        var colorGood = "#afa";
+        var colorBad = "#faa";
         if(guess == answer){
-            el.css("background-color", "#afa");
+            input.css("background-color", colorGood);
+            input.parent().fadeOut();
         }else{
-            el.css("background-color", "#faa");
+            input.css("background-color", colorBad);
         }
     });
 
