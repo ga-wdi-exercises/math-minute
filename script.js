@@ -4,43 +4,57 @@ $(document).ready(function(){
     var problemNumber = 0;
     var correctSoFar = 0;
     
-    var timeLeft = 60;
+    var timeToStartWith = 60;
+    var timeLeft = timeToStartWith;
+    var timingFunction;
     
     $(".total").text(totalProblems);
     $(".soFar").text(correctSoFar);
     $(".timeLeft").text(timeLeft);
     
-    while(problemNumber < totalProblems){
-        $(".board").append(randomProblemUpTo(10));
-        problemNumber += 1;
-    }
-    
-    $("input").on("change", function(){
-        var input = $(this);
-        var answer = input.attr("secret-answer");
-        var guess = input.val();
-        var colorGood = "#afa";
-        var colorBad = "#faa";
-        if(guess == answer){
-            input.css("background-color", colorGood);
-            input.parent().fadeOut();
-            
-            correctSoFar += 1;
-            $(".soFar").text(correctSoFar);
-        }else{
-            input.css("background-color", colorBad);
-        }
-    });
-    
     $(".startTimer").on("click", function(){
         var button = $(this);
         button.prop("disabled", true);
-        setInterval(countDown, 1000);
+        timeLeft = timeToStartWith;
+        $(".timeLeft").text(timeLeft);
+        
+        timingFunction = setInterval(countDown, 1000);
+        
+        correctSoFar = 0;
+        $(".soFar").text(correctSoFar);
+        $(".board").html("");
+        problemNumber = 0;
+        while(problemNumber < totalProblems){
+            $(".board").append(randomProblemUpTo(10));
+            problemNumber += 1;
+        }
+        
+        $("input").on("change", function(){
+            var input = $(this);
+            var answer = input.attr("secret-answer");
+            var guess = input.val();
+            var colorGood = "#afa";
+            var colorBad = "#faa";
+            if(guess == answer){
+                input.css("background-color", colorGood);
+                input.parent().fadeOut();
+                
+                correctSoFar += 1;
+                $(".soFar").text(correctSoFar);
+            }else{
+                input.css("background-color", colorBad);
+            }
+        });
     });
     
     function countDown(){
         timeLeft -= 1;
         $(".timeLeft").text(timeLeft);
+        if(timeLeft === 0){
+            clearInterval(timingFunction);
+            $(".startTimer").removeProp("disabled");
+            $("input").prop("disabled", true);
+        }
     }
 
     function randomNumberUpTo(maximum){
