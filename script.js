@@ -32,10 +32,16 @@ $(document).ready(function(){
         }
     });
     
-    setInterval(function(){
+    $(".startTimer").on("click", function(){
+        var button = $(this);
+        button.prop("disabled", true);
+        setInterval(countDown, 1000);
+    });
+    
+    function countDown(){
         timeLeft -= 1;
         $(".timeLeft").text(timeLeft);
-    }, 1000);
+    }
 
     function randomNumberUpTo(maximum){
         return Math.round(Math.random() * maximum);
